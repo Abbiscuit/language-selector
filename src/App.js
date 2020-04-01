@@ -1,26 +1,76 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import UserCreate from './UserCreate';
+import LanguageContext from './contexts/LanguageContext';
+import ColorContext from './contexts/ColorContext';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import M from 'materialize-css/dist/js/materialize.min.js';
+import 'materialize-css/dist/css/materialize.min.css';
+import Header from './Header';
+
+class App extends Component {
+  state = {
+    language: 'English'
+  };
+
+  componentDidMount() {
+    M.AutoInit();
+  }
+
+  onLanguageChange = language => {
+    this.setState({ language });
+  };
+
+  render() {
+    return (
+      <React.Fragment>
+        <Header />
+        <div className="container">
+          <div>
+            言語を選んでください:{' '}
+            <span
+              role="img"
+              aria-label="english"
+              onClick={() => this.onLanguageChange('English')}
+              style={{
+                cursor: 'pointer',
+                margin: '0 5px'
+              }}
+            >
+              🇺🇸
+            </span>
+            <span
+              role="img"
+              aria-label="dutch"
+              onClick={() => this.onLanguageChange('Dutch')}
+              style={{
+                cursor: 'pointer',
+                margin: '0 5px'
+              }}
+            >
+              🇳🇱
+            </span>
+            <span
+              role="img"
+              aria-label="japanese"
+              onClick={() => this.onLanguageChange('Japanese')}
+              style={{
+                cursor: 'pointer',
+                margin: '0 5px'
+              }}
+            >
+              🇯🇵
+            </span>
+          </div>
+
+          <ColorContext.Provider value="orange">
+            <LanguageContext.Provider value={this.state.language}>
+              <UserCreate />
+            </LanguageContext.Provider>
+          </ColorContext.Provider>
+        </div>
+      </React.Fragment>
+    );
+  }
 }
 
 export default App;
